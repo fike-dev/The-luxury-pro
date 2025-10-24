@@ -1,0 +1,36 @@
+import styled from "styled-components";
+import Logout from "../features/authentication/Logout";
+import ButtonIcon from "./ButtonIcon";
+import { HiOutlineUser } from "react-icons/hi";
+import { useNavigate } from "react-router-dom";
+import DarkModeToggle from "./DarkModeToggle";
+
+const StyledMenu = styled.ul`
+  display: flex;
+  gap: 2.4rem;
+`;
+
+function HeaderMenu() {
+  const navigate = useNavigate();
+
+  return (
+    <StyledMenu>
+      <li>
+        <ButtonIcon
+          onClick={() => navigate("/account", { replace: true })}
+          title="profile"
+        >
+          <HiOutlineUser />
+        </ButtonIcon>
+      </li>
+      <li>
+        <DarkModeToggle />
+      </li>
+      <li>
+        <Logout />
+      </li>
+    </StyledMenu>
+  );
+}
+
+export default HeaderMenu;
