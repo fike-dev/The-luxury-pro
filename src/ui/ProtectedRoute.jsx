@@ -28,7 +28,7 @@ function ProtectedRoute({ children }) {
 
   // 3, If there is no authenticated user, redirect to the /login
   if (!isAuthenticated && !isLoading) {
-    toast.error("You are not autherized to access this page");
+    toast.error("Login to access your account");
     return <Navigate to="/login" replace />;
   }
 
