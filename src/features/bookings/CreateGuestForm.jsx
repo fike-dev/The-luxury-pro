@@ -8,13 +8,8 @@ import { useForm } from "react-hook-form";
 import { getFlagUrl } from "../../utils/helpers";
 import useCreateGuest from "./useCreateGuest";
 
-import countryList from "react-select-country-list";
-import { useMemo } from "react";
-
 function CreateGuestForm({ setGuestId }) {
   const { isCreatingGuest, createGuest } = useCreateGuest();
-
-  const countries = useMemo(() => countryList().getData(), []);
 
   const {
     register,
