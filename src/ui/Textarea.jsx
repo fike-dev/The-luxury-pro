@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const TextArea = styled.textarea`
+const Textarea = styled.textarea`
   padding: 0.8rem 1.2rem;
   border: 1px solid var(--color-grey-300);
   border-radius: 5px;
@@ -10,4 +10,4 @@ const TextArea = styled.textarea`
   height: 8rem;
 `;
 
-export default TextArea;
+export default Textarea;
