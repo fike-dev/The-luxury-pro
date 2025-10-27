@@ -1,14 +1,17 @@
-import BookingRow from "./BookingRow";
+import { Link } from "react-router-dom";
+
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
 import Empty from "../../ui/Empty";
-import useBookings from "./useBookings";
 import Spinner from "../../ui/Spinner";
 import Pagination from "../../ui/Pagination";
+import Button from "../../ui/Button";
+
+import BookingRow from "./BookingRow";
+import useBookings from "./useBookings";
 
 function BookingTable() {
   const { isLoading, bookings, count } = useBookings();
-  // console.log(error);
 
   if (isLoading) return <Spinner />;
   if (!bookings.length) return <Empty resourceName="Bookings" />;
@@ -35,6 +38,11 @@ function BookingTable() {
           <Pagination count={count} />
         </Table.Footer>
       </Table>
+      <div>
+        <Button size="medium" as={Link} to="/bookings/new" replace={true}>
+          New Booking
+        </Button>
+      </div>
     </Menus>
   );
 }

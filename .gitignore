@@ -11,6 +11,14 @@ node_modules
 dist
 dist-ssr
 *.local
+src/data
+src/ui/utils
+src/ui/Modal-v1.jsx
+src/features/cabins/CabinRow-v1.jsx
+src/features/cabins/CabinTable-v1.jsx
+src/features/cabins/CreateCabinForm-v1.jsx
+src/features/settings/UpdateSettingsForm-v1.jsx
+
 
 netlify.toml
 

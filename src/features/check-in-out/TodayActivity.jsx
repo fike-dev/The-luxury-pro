@@ -4,7 +4,11 @@ import Heading from "../../ui/Heading";
 import Row from "../../ui/Row";
 import useTodayActivity from "./useTodayActivity";
 import Spinner from "../../ui/Spinner";
+import SearchBar from "../../ui/SearchBar";
 import TodayItem from "./TodayItem";
+import { useState } from "react";
+import Button from "../../ui/Button";
+import { Link } from "react-router-dom";
 
 const StyledToday = styled.div`
   /* Box */
@@ -41,26 +45,29 @@ const NoActivity = styled.p`
 
 function Today() {
   const { isLoading, activities } = useTodayActivity();
+  const [filteredActivities, setFilteredActivities] = useState(activities);
 
   return (
     <StyledToday>
       <Row type="horizontal">
         <Heading as="h2">Today</Heading>
-
-        {/* 
-        // DON'T FORGOT TO IMPLEMENT THIS
-        <Input type="search" /> 
-        */}
+        <Button size="medium" as={Link} to="/bookings/new" replace={true}>
+          New
+        </Button>
+        <SearchBar
+          setFilteredActivities={setFilteredActivities}
+          activities={activities}
+        />
       </Row>
       {!isLoading ? (
-        activities?.length > 0 ? (
+        filteredActivities?.length > 0 ? (
           <TodayList>
-            {activities.map((activity) => (
+            {filteredActivities.map((activity) => (
               <TodayItem activity={activity} key={activity.id} />
             ))}
           </TodayList>
         ) : (
-          <NoActivity>No activity today...</NoActivity>
+          <NoActivity>No activity to show...</NoActivity>
         )
       ) : (
         <Spinner />

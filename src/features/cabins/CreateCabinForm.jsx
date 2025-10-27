@@ -1,11 +1,11 @@
+import { useForm } from "react-hook-form";
 import Input from "../../ui/Input";
 import Form from "../../ui/Form";
 import Button from "../../ui/Button";
 import FileInput from "../../ui/FileInput";
-import Textarea from "../../ui/Textarea";
+import TextArea from "../../ui/TextArea";
 import FormRow from "../../ui/FormRow";
 
-import { useForm } from "react-hook-form";
 import { useCreateCabin } from "./useCreateCabin";
 import { useEditCabin } from "./useEditCabin";
 
@@ -29,7 +29,6 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
 
   function onSubmit(data) {
     const image = typeof data.image === "string" ? data.image : data.image[0];
-    // console.log(data);
 
     if (isEditSession)
       editCabin(
@@ -53,9 +52,7 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
       );
   }
 
-  function onError(errors) {
-    // console.log(errors);
-  }
+  function onError(errors) {}
 
   return (
     <Form
@@ -122,7 +119,7 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
         label="Description for website"
         error={errors?.description?.message}
       >
-        <Textarea
+        <TextArea
           type="number"
           id="description"
           disabled={isWorking}

@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { Navigate } from "react-router-dom";
-import toast from "react-hot-toast";
 import useUser from "../features/authentication/useUser";
 import Spinner from "./Spinner";
 
@@ -13,8 +12,6 @@ const FullPage = styled.div`
 `;
 
 function ProtectedRoute({ children }) {
-  // const navigate =
-
   // 1. load authenticated user
   const { isLoading, isAuthenticated } = useUser();
 
@@ -28,7 +25,6 @@ function ProtectedRoute({ children }) {
 
   // 3, If there is no authenticated user, redirect to the /login
   if (!isAuthenticated && !isLoading) {
-    toast.error("Login to access your account");
     return <Navigate to="/login" replace />;
   }
 

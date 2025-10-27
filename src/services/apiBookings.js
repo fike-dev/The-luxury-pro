@@ -104,6 +104,37 @@ export async function getStaysTodayActivity() {
   return data;
 }
 
+// First create guest before creating booking
+export async function createGuest(guest) {
+  const { data, error } = await supabase
+    .from("guests")
+    .insert([{ ...guest }])
+    .select()
+    .single();
+
+  if (error) {
+    console.log(error);
+    throw new Error("Something went wrong while creating new guest");
+  }
+
+  return data;
+}
+
+export async function createBooking(booking) {
+  const { data, error } = await supabase
+    .from("bookings")
+    .insert([{ ...booking }])
+    .select()
+    .single();
+
+  if (error) {
+    console.log(error);
+    throw new Error("Something went wrong while creating new booking");
+  }
+
+  return data;
+}
+
 export async function updateBooking(id, obj) {
   const { data, error } = await supabase
     .from("bookings")

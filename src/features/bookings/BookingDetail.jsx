@@ -8,6 +8,7 @@ import ButtonGroup from "../../ui/ButtonGroup";
 import Button from "../../ui/Button";
 import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
+import Empty from "../../ui/Empty";
 import ButtonText from "../../ui/ButtonText";
 import Spinner from "../../ui/Spinner";
 
@@ -17,7 +18,6 @@ import useCheckout from "../check-in-out/useCheckout";
 import useBookingDetails from "./useBookingDetails";
 import BookingDataBox from "./BookingDataBox";
 import useDeleteBooking from "./useDeleteBooking";
-import Empty from "../../ui/Empty";
 
 const HeadingGroup = styled.div`
   display: flex;
