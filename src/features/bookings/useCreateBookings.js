@@ -20,27 +20,3 @@ function useCreateBooking() {
 }
 
 export default useCreateBooking;
-
-const booking = {
-  startDate: "",
-  endDate: "",
-  numNights: "",
-  numGuests: "",
-  extrasPrice: "",
-  totalPrice: "",
-  status: "",
-  hasBreakfast: false,
-  isPaid: false,
-  observations: "",
-  cabinId: "",
-  guestId: "",
-  cabinPrice: "",
-};
-
-const guest = {
-  fullName: "",
-  email: "",
-  nationality: "",
-  nationalID: "",
-  countryFlag: "",
-};

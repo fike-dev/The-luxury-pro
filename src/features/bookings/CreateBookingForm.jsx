@@ -6,7 +6,7 @@ import Input from "../../ui/Input";
 import Form from "../../ui/Form";
 import Button from "../../ui/Button";
 import FormRow from "../../ui/FormRow";
-import TextArea from "../../ui/TextArea";
+import TextArea from "../../ui/TextArea.jsx";
 import SpinnerMini from "../../ui/SpinnerMini";
 import SelectCabin from "../../ui/SelectCabin";
 import BookingCheckbox from "../../ui/BookingCheckbox";
