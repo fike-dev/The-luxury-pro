@@ -1,7 +1,5 @@
 import { formatDistance, parseISO } from "date-fns";
 import { differenceInDays } from "date-fns";
-import countries from "i18n-iso-countries";
-import enLocale from "i18n-iso-countries/langs/en.json";
 
 // We want to make this function work for both Date objects and strings (which come from Supabase)
 export const subtractDates = (dateStr1, dateStr2) =>
@@ -30,15 +28,3 @@ export const formatCurrency = (value) =>
   new Intl.NumberFormat("en", { style: "currency", currency: "USD" }).format(
     value
   );
-
-countries.registerLocale(enLocale);
-
-export const getFlagUrl = (countryName) => {
-  if (!countryName) return;
-
-  const code = countries.getAlpha2Code(countryName, "en").toLowerCase();
-
-  if (!code) throw new Error("Country not found");
-
-  return `https://flagcdn.com/${code}.svg`;
-};

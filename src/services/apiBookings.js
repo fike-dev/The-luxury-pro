@@ -160,3 +160,15 @@ export async function deleteBooking(id) {
   }
   return data;
 }
+
+export async function getCountries() {
+  try {
+    const res = await fetch(
+      "https://restcountries.com/v2/all?fields=name,flag"
+    );
+    const data = res.json();
+    return data;
+  } catch (err) {
+    throw new Error("");
+  }
+}
