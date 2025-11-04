@@ -25,12 +25,19 @@ function NewBooking() {
       </Row>
 
       <Row>
-        <Heading as="h3">create booking</Heading>
-        <CreateBookingForm
-          settings={settings}
-          cabins={cabins}
-          guestId={guestId}
-        />
+        {guestId !== 0 ? (
+          <>
+            <Heading as="h3">create booking</Heading>
+            <CreateBookingForm
+              settings={settings}
+              cabins={cabins}
+              guestId={guestId}
+              setGuestId={setGuestId}
+            />
+          </>
+        ) : (
+          <p>Start by creating new guest</p>
+        )}
       </Row>
     </>
   );

@@ -15,7 +15,7 @@ import { subtractDates } from "../../utils/helpers";
 
 import useCreateBooking from "./useCreateBookings";
 
-function CreateBookingForm({ settings, cabins, guestId }) {
+function CreateBookingForm({ settings, cabins, guestId, setGuestId }) {
   const { isCreatingBooking, createBooking } = useCreateBooking();
   const navigate = useNavigate();
 
@@ -71,7 +71,10 @@ function CreateBookingForm({ settings, cabins, guestId }) {
     createBooking(
       { ...newBooking },
       {
-        onSuccess: (data) => navigate(`/bookings/${data.id}`),
+        onSuccess: (data) => {
+          setGuestId(0);
+          navigate(`/bookings/${data.id}`);
+        },
         onSettled: () => reset(),
       }
     );
