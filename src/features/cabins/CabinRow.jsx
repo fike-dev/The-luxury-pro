@@ -13,6 +13,7 @@ import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
 import toast from "react-hot-toast";
 import useUser from "../authentication/useUser";
+import Spinner from "../../ui/Spinner";
 
 // const TableRow = styled.div`
 //   display: grid;
@@ -72,6 +73,8 @@ function CabinRow({ cabin }) {
     image,
     description,
   } = cabin;
+
+  if (isLoading) return <Spinner />;
 
   function handleCabin(cabinId = "", key = "duplicate") {
     if (email === "test@test.com") {
