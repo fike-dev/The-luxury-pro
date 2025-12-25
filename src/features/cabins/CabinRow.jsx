@@ -11,6 +11,8 @@ import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
+import toast from "react-hot-toast";
+import useUser from "../authentication/useUser";
 
 // const TableRow = styled.div`
 //   display: grid;
@@ -52,6 +54,10 @@ const Discount = styled.div`
 `;
 
 function CabinRow({ cabin }) {
+  const {
+    user: { email },
+    isLoading,
+  } = useUser();
   const { isDeleting, deleteCabin } = useDeleteCabin();
   const { createCabin } = useCreateCabin();
 
@@ -67,7 +73,17 @@ function CabinRow({ cabin }) {
     description,
   } = cabin;
 
-  function handleDuplicate() {
+  function handleCabin(cabinId = "", key = "duplicate") {
+    if (email === "test@test.com") {
+      toast.error(
+        "You don't have permission to perform this operation as a demo user."
+      );
+      return;
+    }
+    if (key === "delete") {
+      deleteCabin(cabinId);
+      return;
+    }
     const cabinToDuplicate = {
       name: `Copy of ${name}`,
       maxCapacity,
@@ -96,7 +112,10 @@ function CabinRow({ cabin }) {
             <Menus.Toggle id={cabinID} />
 
             <Menus.List id={cabinID}>
-              <Menus.Button icon={<HiSquare2Stack />} onClick={handleDuplicate}>
+              <Menus.Button
+                icon={<HiSquare2Stack />}
+                onClick={() => handleCabin()}
+              >
                 Duplicate
               </Menus.Button>
 
@@ -117,7 +136,7 @@ function CabinRow({ cabin }) {
           <Modal.Window name="delete">
             <ConfirmDelete
               resourceName="Cabin"
-              onConfirm={() => deleteCabin(cabinID)}
+              onConfirm={() => handleCabin(cabinID, "delete")}
               disabled={isDeleting}
             />
           </Modal.Window>

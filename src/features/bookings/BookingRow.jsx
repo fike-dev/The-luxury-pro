@@ -19,6 +19,9 @@ import { formatDistanceFromNow } from "../../utils/helpers";
 
 import useCheckout from "../check-in-out/useCheckout";
 import useDeleteBooking from "./useDeleteBooking";
+import useUser from "../authentication/useUser";
+import Spinner from "../../ui/Spinner";
+import toast from "react-hot-toast";
 
 const Cabin = styled.div`
   font-size: 1.6rem;
@@ -63,6 +66,11 @@ function BookingRow({
 }) {
   const navigate = useNavigate();
 
+  const {
+    user: { email: userEmail },
+    isLoading,
+  } = useUser();
+
   const { isCheckingOut, checkOut } = useCheckout();
   const { isDeletingBooking, deleteBooking } = useDeleteBooking();
 
@@ -72,6 +80,17 @@ function BookingRow({
     "checked-out": "silver",
   };
 
+  if (isLoading) return <Spinner />;
+
+  function handleBooking(bookingId, key) {
+    if (userEmail === "test@test.com") {
+      toast.error(
+        "You don't have permission to perform this operation as a demo user."
+      );
+      return;
+    }
+    key === "delete" ? deleteBooking(bookingId) : checkOut(bookingId);
+  }
   return (
     <Table.Row>
       <Cabin>{cabinName}</Cabin>
@@ -120,7 +139,7 @@ function BookingRow({
               <Menus.Button
                 disabled={isCheckingOut}
                 icon={<HiArrowUpOnSquare />}
-                onClick={() => checkOut(bookingId)}
+                onClick={() => handleBooking(bookingId, "checkout")}
               >
                 Check-out
               </Menus.Button>
@@ -136,7 +155,7 @@ function BookingRow({
           <ConfirmDelete
             resourceName="booking"
             disabled={isDeletingBooking}
-            onConfirm={() => deleteBooking(bookingId)}
+            onConfirm={() => handleBooking(bookingId, "delete")}
           />
         </Modal.Window>
       </Modal>

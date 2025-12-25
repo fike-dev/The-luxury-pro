@@ -7,6 +7,7 @@ import SpinnerMini from "../../ui/SpinnerMini";
 
 import useUpdatePassword from "./useUpdatePassword";
 import useUser from "./useUser";
+import toast from "react-hot-toast";
 
 function UpdatePasswordForm() {
   const {
@@ -18,6 +19,12 @@ function UpdatePasswordForm() {
   const { updatePassword, isUpdating } = useUpdatePassword();
 
   function onSubmit({ newPassword, currentPassword }) {
+    if (email === "test@test.com") {
+      toast.error(
+        "You have no permission, to perform this operation as a demo user."
+      );
+      return;
+    }
     updatePassword(
       { newPassword, currentPassword, email },
       { onSuccess: () => reset() }

@@ -5,15 +5,30 @@ import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
 import SpinnerMini from "../../ui/SpinnerMini";
 import useSignup from "./useSignup";
+import useUser from "./useUser";
+import Spinner from "../../ui/Spinner";
+import toast from "react-hot-toast";
 
 // Email regex: /\S+@\S+\.\S+/
 
 function SignupForm() {
+  const {
+    user: { email: userEmail },
+    isLoading: isFetchingUser,
+  } = useUser();
   const { register, handleSubmit, formState, getValues, reset } = useForm();
   const { errors } = formState;
   const { isSigningUp, signUp } = useSignup();
 
+  if (isFetchingUser) return <Spinner />;
+
   function onSubmit({ fullName, email, password }) {
+    if (userEmail === "test@test.com") {
+      toast.error(
+        "You don't have permission to perform this operation as a demo user."
+      );
+      return;
+    }
     signUp(
       { fullName, email, password },
       {

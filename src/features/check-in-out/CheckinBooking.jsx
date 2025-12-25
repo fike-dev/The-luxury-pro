@@ -15,6 +15,8 @@ import Checkbox from "../../ui/Checkbox";
 import { formatCurrency } from "../../utils/helpers";
 import useCheckin from "./useCheckin";
 import useSettings from "../settings/useSettings";
+import useUser from "../authentication/useUser";
+import toast from "react-hot-toast";
 
 const Box = styled.div`
   /* Box */
@@ -28,6 +30,10 @@ function CheckinBooking() {
   const [confirmPaid, setConfirmPaid] = useState(false);
   const [addBreakfast, setAddBreakfast] = useState(false);
   const { booking, isLoading } = useBookingDetails();
+  const {
+    user: { email },
+    isLoading: isFetchingUser,
+  } = useUser();
 
   const { settings, isLoading: isLoadingSettings } = useSettings();
 
@@ -40,7 +46,7 @@ function CheckinBooking() {
 
   const { isCheckingIn, checkIn } = useCheckin();
 
-  if (isLoading || isLoadingSettings) return <Spinner />;
+  if (isLoading || isLoadingSettings || isFetchingUser) return <Spinner />;
 
   const {
     id: bookingId,
@@ -55,6 +61,12 @@ function CheckinBooking() {
     settings.breakfastPrice * numNights * numGuests;
 
   function handleCheckin() {
+    if (email === "test@test.com") {
+      toast.error(
+        "You don't have permission to perform this operation as a demo user."
+      );
+      return;
+    }
     if (!confirmPaid) return;
 
     if (addBreakfast) {

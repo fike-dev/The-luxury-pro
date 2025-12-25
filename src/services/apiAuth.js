@@ -1,6 +1,13 @@
 import supabase, { supabaseUrl } from "./supabase";
 
 export async function signUp({ fullName, email, password }) {
+  // const { _, __ } = await supabase
+  //   .from("bookings")
+  //   .select("*, cabins(*), guests(*)")
+  //   .eq("id", id)
+  //   .single();
+  // const {d, e} = await supabase.auth.getUserIdentities()
+
   let { data, error } = await supabase.auth.signUp({
     email,
     password,

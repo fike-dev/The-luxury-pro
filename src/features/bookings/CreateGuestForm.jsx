@@ -9,8 +9,14 @@ import Spinner from "../../ui/Spinner";
 import { useForm } from "react-hook-form";
 import useCreateGuest from "./useCreateGuest";
 import useCountries from "./useCountries";
+import toast from "react-hot-toast";
+import useUser from "../authentication/useUser";
 
 function CreateGuestForm({ setGuestId }) {
+  const {
+    user: { email },
+    isLoading: isFetchingUser,
+  } = useUser();
   const { isCreatingGuest, createGuest } = useCreateGuest();
   const { isLoading, countries } = useCountries();
 
@@ -21,9 +27,15 @@ function CreateGuestForm({ setGuestId }) {
     formState: { errors },
   } = useForm();
 
-  if (isLoading) return <Spinner />;
+  if (isLoading || isFetchingUser) return <Spinner />;
 
   function onSubmit(data) {
+    if (email === "test@test.com") {
+      toast.error(
+        "You don't have permission to perform this operation as a demo user."
+      );
+      return;
+    }
     const [nationality, countryFlag] = data.nationality.split("-");
     console.log(data);
     const newGuest = {

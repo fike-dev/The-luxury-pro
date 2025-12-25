@@ -8,8 +8,15 @@ import FormRow from "../../ui/FormRow";
 
 import { useCreateCabin } from "./useCreateCabin";
 import { useEditCabin } from "./useEditCabin";
+import toast from "react-hot-toast";
+import useUser from "../authentication/useUser";
+import Spinner from "../../ui/Spinner";
 
 function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
+  const {
+    user: { email },
+    isLoading,
+  } = useUser();
   const { id: editID, ...editValues } = cabinToEdit;
 
   const { isCreating, createCabin } = useCreateCabin();
@@ -27,7 +34,15 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
     defaultValues: isEditSession ? editValues : {},
   });
 
+  if (isLoading) return <Spinner />;
+
   function onSubmit(data) {
+    if (email === "test@test.com") {
+      toast.error(
+        "You don't have permission to perform this operation as a demo user."
+      );
+      return;
+    }
     const image = typeof data.image === "string" ? data.image : data.image[0];
 
     if (isEditSession)
@@ -52,7 +67,9 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
       );
   }
 
-  function onError(errors) {}
+  function onError(errors) {
+    console.log(errors);
+  }
 
   return (
     <Form

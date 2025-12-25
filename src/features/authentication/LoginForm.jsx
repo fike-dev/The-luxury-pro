@@ -26,6 +26,19 @@ function LoginForm() {
     );
   }
 
+  function handleLoginDemo(e) {
+    setEmail("demo");
+    e.preventDefault();
+    login(
+      { email: "test@test.com", password: "testtest" },
+      {
+        onSettled: () => {
+          setPassword("");
+        },
+      }
+    );
+  }
+
   return (
     <Form onSubmit={handleSubmit}>
       <FormRowVertical label="Email address">
@@ -50,7 +63,19 @@ function LoginForm() {
       </FormRowVertical>
       <FormRowVertical>
         <Button size="large" onClick={handleSubmit} disabled={isLogingIn}>
-          {!isLogingIn ? "Login" : <SpinnerMini />}
+          {isLogingIn && email !== "demo" ? <SpinnerMini /> : "Login"}
+        </Button>
+        <Button
+          type="button"
+          size="large"
+          onClick={handleLoginDemo}
+          disabled={isLogingIn}
+        >
+          {isLogingIn && email === "demo" ? (
+            <SpinnerMini />
+          ) : (
+            "Login as demo user"
+          )}
         </Button>
       </FormRowVertical>
     </Form>

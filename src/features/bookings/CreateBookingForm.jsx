@@ -14,8 +14,14 @@ import BookingCheckbox from "../../ui/BookingCheckbox";
 import { subtractDates } from "../../utils/helpers";
 
 import useCreateBooking from "./useCreateBookings";
+import useUser from "../authentication/useUser";
+import Spinner from "../../ui/Spinner";
 
 function CreateBookingForm({ settings, cabins, guestId, setGuestId }) {
+  const {
+    user: { email },
+    isLoading,
+  } = useUser();
   const { isCreatingBooking, createBooking } = useCreateBooking();
   const navigate = useNavigate();
 
@@ -39,7 +45,15 @@ function CreateBookingForm({ settings, cabins, guestId, setGuestId }) {
     return { id: cabin.id, cabinPrice: cabin.regularPrice - cabin.discount };
   });
 
+  if (isLoading) return <Spinner />;
+
   function onSuccess(data) {
+    if (email === "test@test.com") {
+      toast.error(
+        "You don't have permission to perform this operation as a demo user."
+      );
+      return;
+    }
     if (guestId === 0) {
       toast.error("You have to add new guest first!");
       return;
@@ -80,7 +94,9 @@ function CreateBookingForm({ settings, cabins, guestId, setGuestId }) {
     );
   }
 
-  function onError() {}
+  function onError(err) {
+    console.log(err);
+  }
 
   return (
     <Form onSubmit={handleSubmit(onSuccess, onError)}>

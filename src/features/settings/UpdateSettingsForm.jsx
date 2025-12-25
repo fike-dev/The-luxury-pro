@@ -1,9 +1,16 @@
+import toast from "react-hot-toast";
 import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
+import Spinner from "../../ui/Spinner";
+import useUser from "../authentication/useUser";
 import useUpdateSettings from "./useUpdateSettings";
 
 function UpdateSettingsForm({ settings }) {
+  const {
+    user: { email },
+    isLoading,
+  } = useUser();
   const { isUpdating, updateSettings } = useUpdateSettings();
 
   const {
@@ -13,7 +20,15 @@ function UpdateSettingsForm({ settings }) {
     maxGuestsPerBooking,
   } = settings;
 
+  if (isLoading) return <Spinner />;
+
   function handleBlur(e, field) {
+    if (email === "test@test.com") {
+      toast.error(
+        "You don't have permission to perform this operation as a demo user."
+      );
+      return;
+    }
     const { value } = e.target;
 
     // console.log(value);

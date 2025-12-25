@@ -18,6 +18,8 @@ import useCheckout from "../check-in-out/useCheckout";
 import useBookingDetails from "./useBookingDetails";
 import BookingDataBox from "./BookingDataBox";
 import useDeleteBooking from "./useDeleteBooking";
+import useUser from "../authentication/useUser";
+import toast from "react-hot-toast";
 
 const HeadingGroup = styled.div`
   display: flex;
@@ -28,6 +30,10 @@ const HeadingGroup = styled.div`
 function BookingDetail() {
   const navigate = useNavigate();
   const moveBack = useMoveBack();
+  const {
+    user: { email },
+    isLoading: isFetchingUser,
+  } = useUser();
   const { booking, isLoading } = useBookingDetails();
   const { isCheckingOut, checkOut } = useCheckout();
   const { isDeletingBooking, deleteBooking } = useDeleteBooking();
@@ -38,13 +44,29 @@ function BookingDetail() {
     "checked-out": "silver",
   };
 
-  if (isLoading) return <Spinner />;
+  if (isLoading || isFetchingUser) return <Spinner />;
   if (!booking) {
     // toast.error(error.message);
     return <Empty resourceName="Booking" />;
   }
 
   const { status, id: bookingId } = booking;
+
+  function handleBooking(bookingId, key = "checkout") {
+    if (email === "test@test.com") {
+      toast.error(
+        "You don't have permission to perform this operation as a demo user."
+      );
+      return;
+    }
+    if (key === "delete") {
+      deleteBooking(bookingId, {
+        onSettled: () => navigate(-1),
+      });
+      return;
+    }
+    checkOut(bookingId);
+  }
 
   return (
     <>
@@ -65,7 +87,10 @@ function BookingDetail() {
           </Button>
         )}
         {status === "checked-in" && (
-          <Button onClick={() => checkOut(bookingId)} disabled={isCheckingOut}>
+          <Button
+            onClick={() => handleBooking(bookingId, "checkout")}
+            disabled={isCheckingOut}
+          >
             Check-out
           </Button>
         )}
@@ -79,11 +104,7 @@ function BookingDetail() {
             <ConfirmDelete
               resourceName="booking"
               disabled={isDeletingBooking}
-              onConfirm={() => {
-                deleteBooking(bookingId, {
-                  onSettled: () => navigate(-1),
-                });
-              }}
+              onConfirm={() => handleBooking(bookingId, "delete")}
             />
           </Modal.Window>
         </Modal>
