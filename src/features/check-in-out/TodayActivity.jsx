@@ -1,14 +1,12 @@
 import styled from "styled-components";
 
+import { useState } from "react";
 import Heading from "../../ui/Heading";
 import Row from "../../ui/Row";
-import useTodayActivity from "./useTodayActivity";
-import Spinner from "../../ui/Spinner";
 import SearchBar from "../../ui/SearchBar";
+import Spinner from "../../ui/Spinner";
 import TodayItem from "./TodayItem";
-import { useState } from "react";
-import Button from "../../ui/Button";
-import { Link } from "react-router-dom";
+import useTodayActivity from "./useTodayActivity";
 
 const StyledToday = styled.div`
   /* Box */
@@ -51,9 +49,7 @@ function Today() {
     <StyledToday>
       <Row type="horizontal">
         <Heading as="h2">Today</Heading>
-        <Button size="medium" as={Link} to="/bookings/new" replace={true}>
-          New
-        </Button>
+
         <SearchBar
           setFilteredActivities={setFilteredActivities}
           activities={activities}
